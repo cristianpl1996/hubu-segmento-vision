@@ -3,6 +3,7 @@ import { Circle, Flag, GitBranch } from "lucide-react";
 import { motion } from "framer-motion";
 import { useState } from "react";
 import SubsegmentModal from "./SubsegmentModal";
+import { useNavigate } from "react-router-dom";
 
 interface SegmentCardProps {
   name: string;
@@ -22,6 +23,11 @@ const SegmentCard = ({
   onReview,
 }: SegmentCardProps) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const navigate = useNavigate();
+
+  const handleReview = () => {
+    onReview();
+  };
 
   return (
     <>
@@ -64,7 +70,7 @@ const SegmentCard = ({
               <p className="text-sm text-hubu-gray-500 line-clamp-2 mb-4">{description}</p>
               <div className="flex space-x-2">
                 <button 
-                  onClick={onReview}
+                  onClick={handleReview}
                   className="btn-secondary text-sm hover-scale"
                 >
                   Revisar

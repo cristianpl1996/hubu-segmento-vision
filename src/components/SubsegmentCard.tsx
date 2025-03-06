@@ -1,6 +1,7 @@
 
 import { GitBranch, Users } from "lucide-react";
 import { motion } from "framer-motion";
+import { useNavigate } from "react-router-dom";
 
 interface SubsegmentCardProps {
   name: string;
@@ -17,6 +18,12 @@ const SubsegmentCard = ({
   date,
   onReview,
 }: SubsegmentCardProps) => {
+  const navigate = useNavigate();
+
+  const handleReview = () => {
+    onReview();
+  };
+
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
@@ -45,7 +52,7 @@ const SubsegmentCard = ({
             </div>
             <p className="text-xs text-hubu-gray-500 line-clamp-2 mb-3">{description}</p>
             <button 
-              onClick={onReview}
+              onClick={handleReview}
               className="btn-secondary text-xs py-1.5 px-3 hover-scale"
             >
               Revisar

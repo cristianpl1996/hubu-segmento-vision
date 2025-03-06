@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { PlusCircle, Filter, UsersRound, GitBranch } from "lucide-react";
 import { motion } from "framer-motion";
+import { useNavigate } from "react-router-dom";
 import Header from "../components/Header";
 import SearchBar from "../components/SearchBar";
 import SegmentCard from "../components/SegmentCard";
@@ -8,7 +9,6 @@ import ConfigPanel from "../components/ConfigPanel";
 import SegmentGroup from "../components/SegmentGroup";
 import SubsegmentCard from "../components/SubsegmentCard";
 
-// Updated subsegment data with more actionable descriptions
 const segmentsByConfig = [
   {
     id: 1,
@@ -79,6 +79,7 @@ const idealCustomers = [
 ];
 
 const Index = () => {
+  const navigate = useNavigate();
   const [searchResults, setSearchResults] = useState<null | any[]>(null);
   const [isLoading, setIsLoading] = useState(false);
 
@@ -89,7 +90,6 @@ const Index = () => {
     }
 
     setIsLoading(true);
-    // Simulate search with timeout
     setTimeout(() => {
       const allSegments = [...segmentsByConfig, ...idealCustomers];
       const results = allSegments.filter(
@@ -102,11 +102,9 @@ const Index = () => {
   };
 
   const handleReview = (id: number) => {
-    console.log(`Reviewing segment with ID: ${id}`);
-    // Implementation for reviewing a segment would go here
+    navigate(`/segment/${id}`);
   };
 
-  // Clear search on component unmount
   useEffect(() => {
     return () => {
       setSearchResults(null);
@@ -152,39 +150,7 @@ const Index = () => {
                 </motion.button>
               </div>
               
-              {isLoading ? (
-                <div className="flex justify-center py-8">
-                  <div className="animate-pulse">Cargando resultados...</div>
-                </div>
-              ) : searchResults ? (
-                <div className="mb-8">
-                  <div className="flex items-center mb-4">
-                    <h2 className="text-lg font-medium text-hubu-gray-600">
-                      Resultados de búsqueda <span className="text-hubu-gray-400">({searchResults.length})</span>
-                    </h2>
-                  </div>
-                  
-                  {searchResults.length > 0 ? (
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                      {searchResults.map((segment) => (
-                        <SegmentCard
-                          key={segment.id}
-                          name={segment.name}
-                          description={segment.description}
-                          date={segment.date}
-                          isAIGenerated={segment.isAIGenerated}
-                          hasCustomConfig={segment.hasCustomConfig}
-                          onReview={() => handleReview(segment.id)}
-                        />
-                      ))}
-                    </div>
-                  ) : (
-                    <div className="bg-white rounded-lg border border-hubu-gray-200 p-8 text-center">
-                      <p className="text-hubu-gray-500">No se encontraron resultados para tu búsqueda.</p>
-                    </div>
-                  )}
-                </div>
-              ) : (
+              {!isLoading && !searchResults && (
                 <>
                   <motion.div variants={container} initial="hidden" animate="show">
                     <SegmentGroup 
