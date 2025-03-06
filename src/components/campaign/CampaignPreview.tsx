@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Eye, Users, MailOpen, Calendar, BarChart2, TestTube, Check, Phone, MessageSquare } from "lucide-react";
+import { Eye, Users, MailOpen, Calendar, BarChart2, TestTube, Check, Phone, MessageSquare, Mail } from "lucide-react";
 import { CampaignType, campaignTypes, getIconComponent } from "./campaignTypes";
 
 interface CampaignPreviewProps {
