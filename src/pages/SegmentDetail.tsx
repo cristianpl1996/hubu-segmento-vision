@@ -12,8 +12,8 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import SubsegmentModal from "@/components/subsegment-modal/SubsegmentModal";
-import PreviewSection from "@/components/subsegment-modal/PreviewSection";
+import SubsegmentModal from "../components/subsegment-modal/SubsegmentModal";
+import PreviewSection from "../components/subsegment-modal/PreviewSection";
 import SegmentLayout from "../components/SegmentLayout";
 import { useToast } from "@/hooks/use-toast";
 import { useSubsegment } from "@/hooks/useSubsegment";
