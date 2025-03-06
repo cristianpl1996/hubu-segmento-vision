@@ -1,9 +1,8 @@
-
 import { useState, useEffect } from "react";
 import { Users, Megaphone, Menu, X, ChevronLeft, ChevronRight } from "lucide-react";
 import { Link, useLocation } from "react-router-dom";
 import { cn } from "@/lib/utils";
-import { useMobile } from "@/hooks/use-mobile";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 interface SidebarItemProps {
   icon: React.ReactNode;
@@ -37,9 +36,8 @@ const Sidebar = () => {
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const location = useLocation();
-  const isMobile = useMobile();
+  const isMobile = useIsMobile();
   
-  // Set initial collapsed state based on screen size
   useEffect(() => {
     setIsCollapsed(window.innerWidth < 1024);
     
@@ -71,7 +69,6 @@ const Sidebar = () => {
 
   return (
     <>
-      {/* Mobile overlay */}
       {isMobileMenuOpen && (
         <div 
           className="lg:hidden fixed inset-0 bg-black/20 backdrop-blur-sm z-40"
@@ -79,7 +76,6 @@ const Sidebar = () => {
         />
       )}
       
-      {/* Sidebar */}
       <div
         className={cn(
           "fixed left-0 top-0 bottom-0 z-50 flex flex-col bg-white border-r border-hubu-gray-200 transition-all duration-300 pt-16",
@@ -89,7 +85,6 @@ const Sidebar = () => {
         onMouseEnter={() => !isMobile && setIsCollapsed(false)}
         onMouseLeave={() => !isMobile && setIsCollapsed(true)}
       >
-        {/* Toggle button for desktop */}
         {!isMobile && (
           <button
             onClick={toggleSidebar}
@@ -100,7 +95,6 @@ const Sidebar = () => {
           </button>
         )}
         
-        {/* Close button for mobile */}
         {isMobile && isMobileMenuOpen && (
           <button
             onClick={closeMobileMenu}
@@ -130,7 +124,6 @@ const Sidebar = () => {
         </div>
       </div>
 
-      {/* Mobile toggle button */}
       {isMobile && (
         <button
           onClick={toggleSidebar}
