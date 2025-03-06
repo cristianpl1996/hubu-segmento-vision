@@ -8,6 +8,7 @@ import SubsegmentListItem from "../components/SubsegmentListItem";
 import ClientListItem from "../components/ClientListItem";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import CampaignModal from "../components/campaign/CampaignModal";
+import SubsegmentModal from "../components/SubsegmentModal";
 
 // Mock data - en una aplicación real, esto vendría de una API o base de datos
 const segmentData = {
@@ -187,6 +188,7 @@ const SegmentDetail = () => {
   const { id } = useParams<{ id: string }>();
   const [activeTab, setActiveTab] = useState("overview");
   const [isCampaignModalOpen, setIsCampaignModalOpen] = useState(false);
+  const [isSubsegmentModalOpen, setIsSubsegmentModalOpen] = useState(false);
   
   // En caso de que el ID no exista en nuestros datos
   if (!id || !segmentData[Number(id)]) {
@@ -480,7 +482,10 @@ const SegmentDetail = () => {
                   <h3 className="text-lg font-medium text-hubu-gray-700">
                     Subsegmentos ({segment.subsegments.length})
                   </h3>
-                  <button className="btn-primary text-sm flex items-center">
+                  <button 
+                    className="btn-primary text-sm flex items-center"
+                    onClick={() => setIsSubsegmentModalOpen(true)}
+                  >
                     <GitBranch className="h-3.5 w-3.5 mr-1.5" />
                     Crear nuevo subsegmento
                   </button>
@@ -507,6 +512,13 @@ const SegmentDetail = () => {
         segmentName={segment.name}
         clientCount={segment.totalClients}
         segmentId={Number(id)}
+      />
+
+      {/* Subsegment Modal */}
+      <SubsegmentModal
+        isOpen={isSubsegmentModalOpen}
+        onClose={() => setIsSubsegmentModalOpen(false)}
+        segmentName={segment.name}
       />
     </div>
   );

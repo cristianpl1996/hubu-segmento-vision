@@ -21,6 +21,22 @@ const PreviewSection = ({ previewCount }: PreviewSectionProps) => {
           {previewCount > 0 ? previewCount : "Sin selección"}
         </span>
       </div>
+      
+      {previewCount > 0 && (
+        <div className="mt-3 pt-3 border-t border-hubu-gray-200">
+          <div className="text-xs text-hubu-gray-500 mb-1.5">Impacto sobre el segmento principal:</div>
+          <div className="w-full bg-hubu-gray-200 rounded-full h-2 mb-1">
+            <div
+              className="bg-hubu-purple h-2 rounded-full"
+              style={{ width: `${Math.min(100, (previewCount / 300) * 100)}%` }}
+            />
+          </div>
+          <div className="flex justify-between text-xs text-hubu-gray-400">
+            <span>{Math.round((previewCount / 300) * 100)}% del segmento</span>
+            <span>{previewCount} clientes</span>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
