@@ -1,8 +1,6 @@
-
 import { useState, useEffect } from "react";
 import { PlusCircle, Filter, UsersRound, GitBranch } from "lucide-react";
 import { motion } from "framer-motion";
-
 import Header from "../components/Header";
 import SearchBar from "../components/SearchBar";
 import SegmentCard from "../components/SegmentCard";
@@ -10,7 +8,7 @@ import ConfigPanel from "../components/ConfigPanel";
 import SegmentGroup from "../components/SegmentGroup";
 import SubsegmentCard from "../components/SubsegmentCard";
 
-// Simulated data
+// Updated subsegment data with more actionable descriptions
 const segmentsByConfig = [
   {
     id: 1,
@@ -25,14 +23,14 @@ const segmentsByConfig = [
         id: 101,
         name: "Frecuencia baja, ticket alto",
         count: 24,
-        description: "Clientes con frecuencia baja pero con ticket promedio alto",
+        description: "Clientes que compran esporádicamente, pero dejan un ticket alto en cada compra",
         date: "10/03/2025 03:22 PM",
       },
       {
         id: 102,
-        name: "Frecuencia baja, compradores de electrónica",
+        name: "Compradores esporádicos de electrónica",
         count: 18,
-        description: "Clientes con frecuencia baja que compran productos de electrónica",
+        description: "Clientes esporádicos con preferencia por productos de electrónica",
         date: "10/03/2025 03:45 PM",
       }
     ]
@@ -61,9 +59,9 @@ const idealCustomers = [
     subsegments: [
       {
         id: 301,
-        name: "Compradores de productos premium",
+        name: "Compradores premium frecuentes",
         count: 42,
-        description: "Clientes frecuentes que compran productos de categoría premium",
+        description: "Clientes recurrentes con preferencia por productos de alta gama",
         date: "12/03/2025 09:15 AM",
       }
     ]

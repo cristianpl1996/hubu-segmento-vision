@@ -71,10 +71,10 @@ const SegmentCard = ({
                 </button>
                 <button 
                   onClick={() => setIsModalOpen(true)}
-                  className="btn-secondary text-sm hover-scale flex items-center"
+                  className="btn-segmentation text-sm hover-scale flex items-center"
+                  title="Dividir en subsegmentos"
                 >
-                  <GitBranch className="h-3.5 w-3.5 mr-1.5" />
-                  Dividir en subsegmentos
+                  <GitBranch className="h-3.5 w-3.5" />
                 </button>
               </div>
             </div>

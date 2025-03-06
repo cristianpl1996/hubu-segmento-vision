@@ -1,5 +1,5 @@
 
-import { ChevronDown, ChevronUp } from "lucide-react";
+import { ChevronDown, ChevronUp, GitBranch } from "lucide-react";
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
@@ -54,7 +54,7 @@ const SegmentGroup = ({
             {children}
             
             {hasSubsegments && subsegments && (
-              <div className="mt-4 ml-6 border-l-2 border-hubu-gray-200 pl-4">
+              <div className="mt-4 ml-6 border-l-2 border-hubu-purple pl-4 pt-2 pb-2 relative before:absolute before:w-4 before:h-0.5 before:bg-hubu-purple before:top-0 before:left-0 after:absolute after:w-4 after:h-0.5 after:bg-hubu-purple after:bottom-0 after:left-0">
                 <div 
                   className="flex items-center mb-3 cursor-pointer group"
                   onClick={(e) => {
@@ -62,6 +62,9 @@ const SegmentGroup = ({
                     setAreSubsegmentsOpen(!areSubsegmentsOpen);
                   }}
                 >
+                  <div className="mr-2 bg-hubu-purple/10 p-1 rounded">
+                    <GitBranch className="h-4 w-4 text-hubu-purple" />
+                  </div>
                   <h3 className="text-base font-medium text-hubu-gray-600 flex items-center">
                     Subsegmentos
                   </h3>
@@ -84,6 +87,12 @@ const SegmentGroup = ({
                       className="overflow-hidden"
                     >
                       {subsegments}
+                      <button 
+                        className="ml-2 mt-3 text-sm text-hubu-purple flex items-center hover:underline"
+                      >
+                        <GitBranch className="h-3.5 w-3.5 mr-1.5" />
+                        Crear nuevo subsegmento
+                      </button>
                     </motion.div>
                   )}
                 </AnimatePresence>

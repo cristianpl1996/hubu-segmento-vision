@@ -78,6 +78,10 @@
     @apply badge bg-hubu-gray-200 text-hubu-gray-600;
   }
 
+  .badge-subsegment {
+    @apply badge bg-hubu-purple/10 text-hubu-purple border border-hubu-purple/30;
+  }
+
   /* Button styles */
   .btn {
     @apply inline-flex items-center justify-center rounded-md font-medium transition-colors 
@@ -91,6 +95,10 @@
 
   .btn-secondary {
     @apply btn bg-white border border-hubu-gray-200 text-hubu-gray-600 hover:bg-hubu-gray-50 h-10 px-4 py-2;
+  }
+
+  .btn-segmentation {
+    @apply btn bg-hubu-purple/10 text-hubu-purple border border-hubu-purple/20 hover:bg-hubu-purple/20 h-10 w-10 flex items-center justify-center;
   }
   
   /* Input styles */
@@ -121,4 +129,19 @@
 
 .hover-scale:hover {
   transform: scale(1.03);
+}
+
+/* Hierarchy connector styles */
+.hierarchy-connector {
+  @apply relative;
+}
+
+.hierarchy-connector::before {
+  content: '';
+  @apply absolute left-4 top-0 bottom-0 w-0.5 bg-hubu-purple/20;
+}
+
+.hierarchy-connector::after {
+  content: '';
+  @apply absolute left-4 top-1/2 w-3 h-0.5 bg-hubu-purple/20;
 }

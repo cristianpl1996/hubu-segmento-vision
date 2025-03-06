@@ -26,7 +26,7 @@ const SearchBar = ({ onSearch }: SearchBarProps) => {
         <input
           type="text"
           placeholder="Buscar segmento o subsegmento..."
-          className="input-search pl-10 pr-8"
+          className="input-search pl-10 pr-8 w-full focus:ring-hubu-purple/30 focus:border-hubu-purple/30"
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
         />
