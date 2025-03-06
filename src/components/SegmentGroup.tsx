@@ -8,10 +8,20 @@ interface SegmentGroupProps {
   count: number;
   icon?: React.ReactNode;
   children: React.ReactNode;
+  hasSubsegments?: boolean;
+  subsegments?: React.ReactNode;
 }
 
-const SegmentGroup = ({ title, count, icon, children }: SegmentGroupProps) => {
+const SegmentGroup = ({ 
+  title, 
+  count, 
+  icon, 
+  children,
+  hasSubsegments = false,
+  subsegments
+}: SegmentGroupProps) => {
   const [isOpen, setIsOpen] = useState(true);
+  const [areSubsegmentsOpen, setAreSubsegmentsOpen] = useState(true);
 
   return (
     <div className="mb-8">
@@ -42,6 +52,43 @@ const SegmentGroup = ({ title, count, icon, children }: SegmentGroupProps) => {
             className="overflow-hidden"
           >
             {children}
+            
+            {hasSubsegments && subsegments && (
+              <div className="mt-4 ml-6 border-l-2 border-hubu-gray-200 pl-4">
+                <div 
+                  className="flex items-center mb-3 cursor-pointer group"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setAreSubsegmentsOpen(!areSubsegmentsOpen);
+                  }}
+                >
+                  <h3 className="text-base font-medium text-hubu-gray-600 flex items-center">
+                    Subsegmentos
+                  </h3>
+                  <div className="ml-2">
+                    {areSubsegmentsOpen ? (
+                      <ChevronUp className="h-4 w-4 text-hubu-gray-400 group-hover:text-hubu-gray-600 transition-colors" />
+                    ) : (
+                      <ChevronDown className="h-4 w-4 text-hubu-gray-400 group-hover:text-hubu-gray-600 transition-colors" />
+                    )}
+                  </div>
+                </div>
+                
+                <AnimatePresence>
+                  {areSubsegmentsOpen && (
+                    <motion.div
+                      initial={{ opacity: 0, height: 0 }}
+                      animate={{ opacity: 1, height: "auto" }}
+                      exit={{ opacity: 0, height: 0 }}
+                      transition={{ duration: 0.3 }}
+                      className="overflow-hidden"
+                    >
+                      {subsegments}
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </div>
+            )}
           </motion.div>
         )}
       </AnimatePresence>

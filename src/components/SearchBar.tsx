@@ -1,5 +1,5 @@
 
-import { Search } from "lucide-react";
+import { Search, X } from "lucide-react";
 import { useState } from "react";
 
 interface SearchBarProps {
@@ -8,10 +8,15 @@ interface SearchBarProps {
 
 const SearchBar = ({ onSearch }: SearchBarProps) => {
   const [searchTerm, setSearchTerm] = useState("");
-
+  
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     onSearch(searchTerm);
+  };
+  
+  const clearSearch = () => {
+    setSearchTerm("");
+    onSearch("");
   };
 
   return (
@@ -20,11 +25,20 @@ const SearchBar = ({ onSearch }: SearchBarProps) => {
         <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-hubu-gray-400" />
         <input
           type="text"
-          placeholder="Buscar segmento..."
-          className="input-search pl-10"
+          placeholder="Buscar segmento o subsegmento..."
+          className="input-search pl-10 pr-8"
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
         />
+        {searchTerm && (
+          <button
+            type="button"
+            onClick={clearSearch}
+            className="absolute right-3 top-1/2 -translate-y-1/2 text-hubu-gray-400 hover:text-hubu-gray-600"
+          >
+            <X className="h-4 w-4" />
+          </button>
+        )}
       </div>
     </form>
   );

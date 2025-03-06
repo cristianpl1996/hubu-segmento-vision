@@ -1,6 +1,6 @@
 
 import { useState, useEffect } from "react";
-import { PlusCircle, Filter, UsersRound } from "lucide-react";
+import { PlusCircle, Filter, UsersRound, GitBranch } from "lucide-react";
 import { motion } from "framer-motion";
 
 import Header from "../components/Header";
@@ -8,6 +8,7 @@ import SearchBar from "../components/SearchBar";
 import SegmentCard from "../components/SegmentCard";
 import ConfigPanel from "../components/ConfigPanel";
 import SegmentGroup from "../components/SegmentGroup";
+import SubsegmentCard from "../components/SubsegmentCard";
 
 // Simulated data
 const segmentsByConfig = [
@@ -18,6 +19,23 @@ const segmentsByConfig = [
     date: "05/03/2025 12:16 PM",
     isAIGenerated: false,
     hasCustomConfig: true,
+    hasSubsegments: true,
+    subsegments: [
+      {
+        id: 101,
+        name: "Frecuencia baja, ticket alto",
+        count: 24,
+        description: "Clientes con frecuencia baja pero con ticket promedio alto",
+        date: "10/03/2025 03:22 PM",
+      },
+      {
+        id: 102,
+        name: "Frecuencia baja, compradores de electrónica",
+        count: 18,
+        description: "Clientes con frecuencia baja que compran productos de electrónica",
+        date: "10/03/2025 03:45 PM",
+      }
+    ]
   },
   {
     id: 2,
@@ -26,6 +44,8 @@ const segmentsByConfig = [
     date: "05/03/2025 07:24 PM",
     isAIGenerated: false,
     hasCustomConfig: true,
+    hasSubsegments: false,
+    subsegments: []
   },
 ];
 
@@ -37,6 +57,16 @@ const idealCustomers = [
     date: "05/03/2025 05:29 AM",
     isAIGenerated: true,
     hasCustomConfig: false,
+    hasSubsegments: true,
+    subsegments: [
+      {
+        id: 301,
+        name: "Compradores de productos premium",
+        count: 42,
+        description: "Clientes frecuentes que compran productos de categoría premium",
+        date: "12/03/2025 09:15 AM",
+      }
+    ]
   },
   {
     id: 4,
@@ -45,6 +75,8 @@ const idealCustomers = [
     date: "05/03/2025 05:29 AM",
     isAIGenerated: true,
     hasCustomConfig: false,
+    hasSubsegments: false,
+    subsegments: []
   },
 ];
 
@@ -161,6 +193,23 @@ const Index = () => {
                       title="Segmentos creados por configuración establecida" 
                       count={2}
                       icon={<Filter className="h-5 w-5 text-hubu-gray-400" />}
+                      hasSubsegments={segmentsByConfig.some(segment => segment.hasSubsegments)}
+                      subsegments={
+                        <div className="grid grid-cols-1 gap-3 mt-2">
+                          {segmentsByConfig
+                            .flatMap(segment => segment.subsegments)
+                            .map(subsegment => (
+                              <SubsegmentCard
+                                key={subsegment.id}
+                                name={subsegment.name}
+                                count={subsegment.count}
+                                description={subsegment.description}
+                                date={subsegment.date}
+                                onReview={() => handleReview(subsegment.id)}
+                              />
+                            ))}
+                        </div>
+                      }
                     >
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                         {segmentsByConfig.map((segment) => (
@@ -181,6 +230,23 @@ const Index = () => {
                       title="Clientes ideales" 
                       count={2}
                       icon={<UsersRound className="h-5 w-5 text-hubu-gray-400" />}
+                      hasSubsegments={idealCustomers.some(segment => segment.hasSubsegments)}
+                      subsegments={
+                        <div className="grid grid-cols-1 gap-3 mt-2">
+                          {idealCustomers
+                            .flatMap(segment => segment.subsegments)
+                            .map(subsegment => (
+                              <SubsegmentCard
+                                key={subsegment.id}
+                                name={subsegment.name}
+                                count={subsegment.count}
+                                description={subsegment.description}
+                                date={subsegment.date}
+                                onReview={() => handleReview(subsegment.id)}
+                              />
+                            ))}
+                        </div>
+                      }
                     >
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                         {idealCustomers.map((segment) => (
