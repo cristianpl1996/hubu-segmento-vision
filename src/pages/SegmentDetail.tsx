@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { ArrowLeft, Calendar, Edit, Download, Users, BarChart3, PieChart, LineChart, CreditCard, ShoppingBag, GitBranch, FileSpreadsheet, ExternalLink, MessageSquare, Scale } from "lucide-react";
@@ -8,6 +7,7 @@ import SegmentMetricCard from "../components/SegmentMetricCard";
 import SubsegmentListItem from "../components/SubsegmentListItem";
 import ClientListItem from "../components/ClientListItem";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import CampaignModal from "../components/campaign/CampaignModal";
 
 // Mock data - en una aplicación real, esto vendría de una API o base de datos
 const segmentData = {
@@ -186,6 +186,7 @@ const SegmentDetail = () => {
   const navigate = useNavigate();
   const { id } = useParams<{ id: string }>();
   const [activeTab, setActiveTab] = useState("overview");
+  const [isCampaignModalOpen, setIsCampaignModalOpen] = useState(false);
   
   // En caso de que el ID no exista en nuestros datos
   if (!id || !segmentData[Number(id)]) {
@@ -297,7 +298,10 @@ const SegmentDetail = () => {
                 <Edit className="h-3.5 w-3.5 mr-1.5" />
                 Editar filtros
               </button>
-              <button className="btn-primary text-sm flex items-center">
+              <button 
+                className="btn-primary text-sm flex items-center"
+                onClick={() => setIsCampaignModalOpen(true)}
+              >
                 <Users className="h-3.5 w-3.5 mr-1.5" />
                 Crear campaña
               </button>
@@ -495,6 +499,15 @@ const SegmentDetail = () => {
           )}
         </Tabs>
       </main>
+
+      {/* Campaign Modal */}
+      <CampaignModal 
+        isOpen={isCampaignModalOpen}
+        onClose={() => setIsCampaignModalOpen(false)}
+        segmentName={segment.name}
+        clientCount={segment.totalClients}
+        segmentId={Number(id)}
+      />
     </div>
   );
 };
