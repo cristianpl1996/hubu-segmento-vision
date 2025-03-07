@@ -17,7 +17,7 @@ import PreviewSection from "../components/subsegment-modal/PreviewSection";
 import SegmentLayout from "../components/SegmentLayout";
 import { useToast } from "@/hooks/use-toast";
 import { useSubsegment } from "@/hooks/useSubsegment";
-import { idealCustomers } from "@/data/segmentData";
+import { idealCustomers, segmentsByConfig, Segment, Subsegment } from "@/data/segmentData";
 import Layout from "../components/Layout";
 
 const SegmentDetail = () => {
@@ -28,12 +28,34 @@ const SegmentDetail = () => {
   const [previewCount, setPreviewCount] = useState(0);
   const { toast } = useToast();
   const { subsegments, addSubsegment, updateSubsegment, deleteSubsegment } = useSubsegment();
-  const [segment, setSegment] = useState(idealCustomers.find(segment => segment.id === segmentId));
+  const [segment, setSegment] = useState<Segment | null>(null);
+  const [isSubsegment, setIsSubsegment] = useState(false);
+  const [parentSegment, setParentSegment] = useState<Segment | null>(null);
+  const [subsegmentDetail, setSubsegmentDetail] = useState<Subsegment | null>(null);
 
   useEffect(() => {
     if (segmentId) {
-      const foundSegment = idealCustomers.find(segment => segment.id === segmentId);
-      setSegment(foundSegment || undefined);
+      const allSegments = [...idealCustomers, ...segmentsByConfig];
+      const foundSegment = allSegments.find(segment => segment.id === segmentId);
+      
+      if (foundSegment) {
+        setSegment(foundSegment);
+        setIsSubsegment(false);
+        return;
+      }
+      
+      for (const segment of allSegments) {
+        const foundSubsegment = segment.subsegments.find(
+          subsegment => subsegment.id === segmentId
+        );
+        
+        if (foundSubsegment) {
+          setIsSubsegment(true);
+          setParentSegment(segment);
+          setSubsegmentDetail(foundSubsegment);
+          return;
+        }
+      }
     }
   }, [segmentId]);
 
@@ -61,11 +83,83 @@ const SegmentDetail = () => {
     });
   };
 
-  if (!segment) {
+  if (!segment && !subsegmentDetail) {
     return (
-      <SegmentLayout>
-        <div>Segmento no encontrado</div>
-      </SegmentLayout>
+      <Layout>
+        <div className="p-6">
+          <Link to="/" className="inline-flex items-center text-hubu-gray-600 hover:text-hubu-gray-700">
+            <ArrowLeft className="h-4 w-4 mr-2" />
+            Volver a Segmentos
+          </Link>
+          <div className="mt-8 text-center text-hubu-gray-500">Segmento o subsegmento no encontrado</div>
+        </div>
+      </Layout>
+    );
+  }
+
+  if (isSubsegment && subsegmentDetail) {
+    return (
+      <Layout>
+        <div className="p-6">
+          <Link to="/" className="inline-flex items-center text-hubu-gray-600 hover:text-hubu-gray-700">
+            <ArrowLeft className="h-4 w-4 mr-2" />
+            Volver a Segmentos
+          </Link>
+          
+          {parentSegment && (
+            <Link to={`/segment/${parentSegment.id}`} className="inline-flex items-center text-hubu-gray-600 hover:text-hubu-gray-700 ml-4">
+              <ArrowLeft className="h-4 w-4 mr-2" />
+              Volver a {parentSegment.name}
+            </Link>
+          )}
+          
+          <div className="mt-4">
+            <div className="flex items-center">
+              <span className="badge-subsegment text-xs px-2 py-0.5 mr-2">Subsegmento</span>
+              <h1 className="text-2xl font-semibold text-hubu-gray-700">{subsegmentDetail.name}</h1>
+            </div>
+            <p className="text-hubu-gray-500 mt-1">{subsegmentDetail.description}</p>
+            
+            <div className="mt-6 bg-white rounded-md shadow-sm p-6">
+              <div className="flex justify-between items-center mb-4">
+                <h2 className="text-lg font-medium text-hubu-gray-700">Detalles del Subsegmento</h2>
+                <Badge className="bg-hubu-purple text-white">{subsegmentDetail.count} clientes</Badge>
+              </div>
+              
+              <div className="grid md:grid-cols-2 gap-6">
+                <div>
+                  <h3 className="font-medium text-hubu-gray-600 mb-2">Información</h3>
+                  <div className="space-y-3">
+                    <div>
+                      <span className="text-sm font-medium text-hubu-gray-600">Fecha de creación:</span>
+                      <p className="text-hubu-gray-500">{subsegmentDetail.date}</p>
+                    </div>
+                    <div>
+                      <span className="text-sm font-medium text-hubu-gray-600">Segmento padre:</span>
+                      <p className="text-hubu-gray-500">{parentSegment?.name || "No disponible"}</p>
+                    </div>
+                  </div>
+                </div>
+                
+                <div>
+                  <h3 className="font-medium text-hubu-gray-600 mb-2">Acciones</h3>
+                  <div className="space-y-2">
+                    <Button variant="outline" size="sm" className="w-full justify-start">
+                      <Edit className="h-4 w-4 mr-2" /> Editar subsegmento
+                    </Button>
+                    <Button variant="outline" size="sm" className="w-full justify-start">
+                      <Copy className="h-4 w-4 mr-2" /> Duplicar
+                    </Button>
+                    <Button variant="outline" size="sm" className="w-full justify-start text-red-500 hover:text-red-600">
+                      <Trash2 className="h-4 w-4 mr-2" /> Eliminar
+                    </Button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </Layout>
     );
   }
 
@@ -78,8 +172,8 @@ const SegmentDetail = () => {
               <ArrowLeft className="h-4 w-4 mr-2" />
               Volver a Segmentos
             </Link>
-            <h1 className="text-2xl font-semibold text-hubu-gray-700 mt-4">{segment.name}</h1>
-            <p className="text-hubu-gray-500 mt-1">{segment.description}</p>
+            <h1 className="text-2xl font-semibold text-hubu-gray-700 mt-4">{segment?.name}</h1>
+            <p className="text-hubu-gray-500 mt-1">{segment?.description}</p>
           </div>
 
           <PreviewSection previewCount={previewCount} />
