@@ -1,5 +1,5 @@
 
-import { Search, Bell, Settings } from "lucide-react";
+import { Menu, Search, Bell, Settings } from "lucide-react";
 import { useState, useEffect } from "react";
 
 const Header = () => {
@@ -19,8 +19,11 @@ const Header = () => {
     <header className={`sticky top-0 w-full z-40 transition-all duration-300 ${
       scrolled ? "bg-white/80 backdrop-blur-md shadow-sm" : "bg-transparent"
     }`}>
-      <div className="h-16 px-6 ml-0 lg:ml-16 flex items-center justify-between">
-        <div className="flex items-center">
+      <div className="h-16 px-6 flex items-center justify-between">
+        <div className="flex items-center space-x-6">
+          <button className="lg:hidden p-2 rounded-md hover:bg-hubu-gray-100">
+            <Menu className="h-5 w-5 text-hubu-gray-500" />
+          </button>
           <div className="flex items-center">
             <a href="/" className="flex items-center">
               <span className="font-bold text-2xl bg-clip-text text-transparent bg-gradient-to-r from-hubu-purple to-hubu-purple/80">
